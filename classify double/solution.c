@@ -10,11 +10,11 @@
  */
 
 uint64_t convertToUint64(double number) {
-    return *((uint64_t * )(&number));
+    return *((uint64_t *) (&number));
 }
 
 bool getBit(const uint64_t number, const uint8_t index) {
-    uint64_t temp = uint64_t(1) << index;
+    uint64_t temp = (uint64_t)1 << index;
     uint64_t mask = number & temp;
     mask >>= index;
     return mask;
