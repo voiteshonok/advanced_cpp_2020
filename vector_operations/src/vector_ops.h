@@ -151,4 +151,22 @@ namespace task {
         return c;
     }
 
+    std::istream &operator>>(std::istream &stream, std::vector<double> &a) {
+        int n;
+        stream >> n;
+        a = std::vector<double>(n);
+        for (int i = 0; i < n; ++i) {
+            stream >> a[i];
+        }
+        return stream;
+    }
+
+    std::ostream &operator<<(std::ostream &cout, const std::vector<double> &a) {
+        for (int i = 0; i < a.size(); ++i) {
+            cout << a[i] << " ";
+        }
+        cout << std::endl;
+        return cout;
+    }
+
 }  // namespace task
