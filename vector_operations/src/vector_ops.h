@@ -5,7 +5,8 @@
 
 namespace task {
 
-// Your code here...
+vector<double> operator+ (const vector<double>& a, const vector<double>& b){
+}
 
 
 }  // namespace task
