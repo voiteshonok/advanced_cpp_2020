@@ -6,14 +6,12 @@
 
 namespace task {
 
-    const double EPS = 1e-6;
-
     double abs(const double &a) {
         return (a >= 0 ? a : -a);
     }
 
     bool AreClose(const double &a, const double &b) {
-        return abs(a - b) <= EPS;
+        return abs(a - b) <= 1e-7;
     }
 
     std::vector<double> operator+(const std::vector<double> &a, const std::vector<double> &b) {
@@ -121,14 +119,12 @@ namespace task {
         return true;
     }
 
-    std::vector<double> reverse(const std::vector<double> &a) {
-        std::vector<double> c(a.size());
-
-        for (int i = 0; i < a.size(); ++i) {
-            c[i] = a[a.size() - 1 - i];
+    void reverse(std::vector<double> &a) {
+        for (int i = 0; i < a.size()/2; ++i) {
+	    double temp = a[i];
+	    a[i]=a[a.size() - i - 1];
+            a[a.size() - 1 - i] = temp;
         }
-
-        return c;
     }
 
     std::vector<int> operator|(const std::vector<int> &a, const std::vector<int> &b) {
