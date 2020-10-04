@@ -6,7 +6,20 @@ typedef std::function<int (int)> Op;
 
 
 Op compose (size_t n, Op ops[]) {
-    /// Your code goes here.
+    Op temp =
+            [](int x) -> int {
+        return x;
+    };
+    auto com =
+            [](Op &temp, const Op &f) -> Op {
+        return [temp, f](int x) {
+            return f(temp(x));
+        };
+    };
+    for (size_t i = n; i > 0; --i) {
+        temp = com(temp, ops[i - 1]);
+    }
+    return temp;
 }
 
 
