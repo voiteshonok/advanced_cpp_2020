@@ -15,7 +15,9 @@ Matrix::Matrix(size_t rows, size_t cols) : row(rows), col(cols) {
     markWithOnes();
 }
 
-Matrix::Matrix(const Matrix &copy) : row(copy.row), col(copy.col) {
+Matrix::Matrix(const Matrix &copy) {
+    row = copy.row;
+    col = copy.col;
     allocateMemory();
     for (size_t i = 0; i < row; ++i) {
         for (size_t j = 0; j < col; ++j) {
@@ -203,6 +205,7 @@ Matrix &Matrix::operator*=(const Matrix &a) {
             temp[i][j] = s;
         }
     }
+    *this = temp;
     return *this;
 }
 
@@ -251,16 +254,17 @@ std::vector<double> Matrix::getColumn(size_t column) {
     return vec;
 }
 
-std::ostream & task::operator<<(std::ostream &output, const Matrix &matrix) {
+std::ostream &task::operator<<(std::ostream &output, const Matrix &matrix) {
     for (size_t i = 0; i < matrix.getRow(); ++i) {
         for (size_t j = 0; j < matrix.getCol(); ++j) {
-            output << matrix[i][j];
+            output << matrix[i][j] << " ";
         }
+        output << "\n";
     }
     return output;
 }
 
-std::istream& task::operator>>(std::istream &input, Matrix &matrix) {
+std::istream &task::operator>>(std::istream &input, Matrix &matrix) {
     size_t n, m;
     input >> n >> m;
     matrix.resize(n, m);
