@@ -14,56 +14,112 @@ class SizeMismatchException : public std::exception {};
 
 
 class Matrix {
-
 public:
-
     Matrix();
+
     Matrix(size_t rows, size_t cols);
-    Matrix(const Matrix& copy);
-    Matrix& operator=(const Matrix& a);
 
-    double& get(size_t row, size_t col);
-    const double& get(size_t row, size_t col) const;
-    void set(size_t row, size_t col, const double& value);
-    void resize(size_t new_rows, size_t new_cols);
+    ~Matrix();
 
-    /* ??? */ operator[](size_t row);
-    /* ??? */ operator[](size_t row) const;
+    class ProxyArr {
+    public:
+        explicit ProxyArr(double *row) : row(row) {}
 
-    Matrix& operator+=(const Matrix& a);
-    Matrix& operator-=(const Matrix& a);
-    Matrix& operator*=(const Matrix& a);
-    Matrix& operator*=(const double& number);
+        const double &operator[](size_t m) const {
+            double &temp = row[m];
+            //delete this;
+            return temp;
+        }
 
-    Matrix operator+(const Matrix& a) const;
-    Matrix operator-(const Matrix& a) const;
-    Matrix operator*(const Matrix& a) const;
-    Matrix operator*(const double& a) const;
+        double &operator[](size_t m) {
+            double &temp = row[m];
+            //delete this;
+            return temp;
+        }
+
+    private:
+        double *row;
+    };
+
+    ProxyArr operator[](size_t n) const;
+
+    size_t getRow() const;
+
+    size_t getCol() const;
+
+    double &get(size_t row, size_t col);
+
+    const double &get(size_t row, size_t col) const;
+
+    void set(size_t row, size_t col, const double &value);
+
+    void resize(size_t n, size_t m);
+
+    Matrix &operator+=(const Matrix &a);
+
+    Matrix &operator-=(const Matrix &a);
+
+    Matrix &operator*=(const Matrix &a);
+
+    Matrix &operator*=(const double &number);
+
+
+    Matrix operator+(const Matrix &a) const;
+
+    Matrix operator-(const Matrix &a) const;
+
+    Matrix operator*(const Matrix &a) const;
+
+    Matrix operator*(const double &a) const;
 
     Matrix operator-() const;
+
     Matrix operator+() const;
 
+    bool operator==(const Matrix &a) const;
+
+    bool operator!=(const Matrix &a) const;
+
     double det() const;
+
     void transpose();
+
     Matrix transposed() const;
+
     double trace() const;
 
     std::vector<double> getRow(size_t row);
+
     std::vector<double> getColumn(size_t column);
 
-    bool operator==(const Matrix& a) const;
-    bool operator!=(const Matrix& a) const;
+    Matrix(const Matrix &copy);
 
-    // Your code goes here...
+    Matrix &operator=(const Matrix &a);
 
+private:
+    double **arr = nullptr;
+    int row, col;
+
+    void allocateMemory();
+
+    void markWithOnes();
+
+    int getMin(int a, int b);
+
+    void checkMismatch(int n, int m) const;
+
+    void checkMismatch() const;
+
+    static double abs(double a);
+
+    static bool areClose(double a, double b);
 };
 
+Matrix operator*(const double &a, const Matrix &b);
 
-Matrix operator*(const double& a, const Matrix& b);
+std::ostream &operator<<(std::ostream &output, const Matrix &matrix);
 
-std::ostream& operator<<(std::ostream& output, const Matrix& matrix);
-std::istream& operator>>(std::istream& input, Matrix& matrix);
-
+std::istream &operator>>(std::istream &input, Matrix &matrix);
 
 
 }  // namespace task
