@@ -1,7 +1,5 @@
 #include "matrix.h"
 
-using namespace task;
-
 Matrix::Matrix() : row(1), col(1) {
     allocateMemory();
     markWithOnes();
@@ -12,11 +10,11 @@ Matrix::Matrix(size_t rows, size_t cols) : row(rows), col(cols) {
     markWithOnes();
 }
 
-Matrix::Matrix(const Matrix &matrix) : row(matrix.row), col(matrix.col) {
+Matrix::Matrix(const Matrix &copy) : row(copy.row), col(copy.col) {
     allocateMemory();
     for (int i = 0; i < row; ++i) {
         for (int j = 0; j < col; ++j) {
-            arr[i][j] = matrix[i][j];
+            arr[i][j] = copy[i][j];
         }
     }
 }
@@ -30,22 +28,21 @@ Matrix::~Matrix() {
 
 
 Matrix::ProxyArr Matrix::operator[](size_t n) const {
-    //return *(new ProxyArr(arr[n]));
     return ProxyArr(arr[n]);
 }
 
-Matrix &Matrix::operator=(const Matrix &matrix) {
-    if (&matrix == this) {
+Matrix &Matrix::operator=(const Matrix &a) {
+    if (&a == this) {
         return *this;
     }
     delete this;
-    row = matrix.getRow();
-    col = matrix.getCol();
+    row = a.getRow();
+    col = a.getCol();
     allocateMemory();
 
     for (int i = 0; i < row; ++i) {
         for (int j = 0; j < col; ++j) {
-            arr[i][j] = matrix[i][j];
+            arr[i][j] = a[i][j];
         }
     }
     return *this;
@@ -145,7 +142,7 @@ Matrix Matrix::operator+(const Matrix &a) const {
 }
 
 Matrix &Matrix::operator-=(const Matrix &a) {
-    return *this += (-1 * a);
+    return *this += -a;
 }
 
 Matrix Matrix::operator-(const Matrix &a) const {
@@ -176,7 +173,7 @@ Matrix Matrix::operator+() const {
 Matrix &Matrix::operator*=(const double &number) {
     for (int i = 0; i < row; ++i) {
         for (int j = 0; j < col; ++j) {
-            arr[i][j] += number;
+            arr[i][j] *= number;
         }
     }
     return *this;
@@ -310,4 +307,3 @@ Matrix Matrix::transposed() const {
 void Matrix::transpose() {
     *this = this->transposed();
 }
-
