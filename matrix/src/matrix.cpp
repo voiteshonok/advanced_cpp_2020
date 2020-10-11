@@ -2,6 +2,9 @@
 // Created by ACER on 10.10.2020.
 //
 #include "matrix.h"
+
+using namespace task;
+
 Matrix::Matrix() : row(1), col(1) {
     allocateMemory();
     markWithOnes();
@@ -152,7 +155,7 @@ Matrix Matrix::operator-(const Matrix &a) const {
     return temp -= a;
 }
 
-Matrix operator*(const double &a, const Matrix &b) {
+Matrix task::operator*(const double &a, const Matrix &b) {
     Matrix temp = b;
     for (size_t i = 0; i < temp.getRow(); ++i) {
         for (size_t j = 0; j < temp.getCol(); ++j) {
@@ -248,7 +251,7 @@ std::vector<double> Matrix::getColumn(size_t column) {
     return vec;
 }
 
-std::ostream &operator<<(std::ostream &output, const Matrix &matrix) {
+std::ostream & task::operator<<(std::ostream &output, const Matrix &matrix) {
     for (size_t i = 0; i < matrix.getRow(); ++i) {
         for (size_t j = 0; j < matrix.getCol(); ++j) {
             output << matrix[i][j];
@@ -257,7 +260,7 @@ std::ostream &operator<<(std::ostream &output, const Matrix &matrix) {
     return output;
 }
 
-std::istream &operator>>(std::istream &input, Matrix &matrix) {
+std::istream& task::operator>>(std::istream &input, Matrix &matrix) {
     size_t n, m;
     input >> n >> m;
     matrix.resize(n, m);

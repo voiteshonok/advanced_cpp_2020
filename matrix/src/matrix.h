@@ -1,7 +1,7 @@
 #pragma once
 
-#include <vector>
 #include <iostream>
+#include <vector>
 
 
 namespace task {
@@ -115,11 +115,10 @@ namespace task {
         static bool areClose(double a, double b);
     };
 
-    Matrix operator*(const double &a, const Matrix &b);
+    task::Matrix operator*(const double &a, const Matrix &b);
 
     std::ostream &operator<<(std::ostream &output, const Matrix &matrix);
 
     std::istream &operator>>(std::istream &input, Matrix &matrix);
 
-
-}  // namespace task
+}// namespace task
