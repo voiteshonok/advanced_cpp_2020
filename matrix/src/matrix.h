@@ -113,6 +113,8 @@ namespace task {
         static double abs(double a);
 
         static bool areClose(double a, double b);
+
+        void deallocateMemory();
     };
 
     task::Matrix operator*(const double &a, const Matrix &b);

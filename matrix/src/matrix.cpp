@@ -1,6 +1,3 @@
-//
-// Created by ACER on 10.10.2020.
-//
 #include "matrix.h"
 
 using namespace task;
@@ -27,12 +24,15 @@ Matrix::Matrix(const Matrix &copy) {
 }
 
 Matrix::~Matrix() {
+    deallocateMemory();
+}
+
+void Matrix::deallocateMemory() {
     for (size_t i = 0; i < row; ++i) {
         delete[] arr[i];
     }
     delete[] arr;
 }
-
 
 Matrix::ProxyArr Matrix::operator[](size_t n) const {
     return ProxyArr(arr[n]);
@@ -42,7 +42,7 @@ Matrix &Matrix::operator=(const Matrix &a) {
     if (&a == this) {
         return *this;
     }
-    delete this;
+    deallocateMemory();
     row = a.getRow();
     col = a.getCol();
     allocateMemory();
@@ -85,21 +85,18 @@ void Matrix::set(size_t n, size_t m, const double &value) {
 }
 
 void Matrix::resize(size_t n, size_t m) {
-    auto *temp = new Matrix(n, m);
+    Matrix temp(n, m);
     for (size_t i = 0; i < n; ++i) {
         for (size_t j = 0; j < m; ++j) {
-            temp->arr[i][j] = 0;
+            temp.arr[i][j] = 0;
         }
     }
     for (size_t i = 0; i < getMin(n, row); ++i) {
         for (size_t j = 0; j < getMin(m, col); ++j) {
-            temp->arr[i][j] = arr[i][j];
+            temp.arr[i][j] = arr[i][j];
         }
     }
-    delete this;
-    arr = temp->arr;
-    col = temp->getCol();
-    row = temp->getRow();
+    *this = temp;
 }
 
 void Matrix::allocateMemory() {
