@@ -212,7 +212,9 @@ Matrix Matrix::operator*(const Matrix &a) const {
 }
 
 bool Matrix::operator==(const Matrix &a) const {
-    checkMismatch();
+    if (row != a.getRow() || col != a.getCol()) {
+        return false;
+    }
     for (size_t i = 0; i < row; ++i) {
         for (size_t j = 0; j < col; ++j) {
             if (!areClose(arr[i][j], a[i][j])) {
