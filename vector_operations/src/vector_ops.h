@@ -1,7 +1,7 @@
 #pragma once
 
-#include <vector>
 #include <iostream>
+#include <vector>
 
 
 namespace task {
@@ -14,21 +14,23 @@ namespace task {
         return abs(a - b) <= 1e-7;
     }
 
-    std::vector<double> operator+(const std::vector<double> &a, const std::vector<double> &b) {
-        std::vector<double> c(a.size());
-
-        for (int i = 0; i < a.size(); ++i) {
-            c[i] = a[i] + b[i];
-        }
-
-        return c;
-    }
-
     std::vector<double> &operator+=(std::vector<double> &a, const std::vector<double> &b) {
         for (int i = 0; i < a.size(); ++i) {
             a[i] += b[i];
         }
         return a;
+    }
+
+    std::vector<double> operator+(const std::vector<double> &a, const std::vector<double> &b) {
+        /*std::vector<double> c(a.size());
+
+        for (int i = 0; i < a.size(); ++i) {
+            c[i] = a[i] + b[i];
+        }*/
+        std::vector<double> c = a;
+        c += b;
+
+        return c;
     }
 
     std::vector<double> operator+(const std::vector<double> &a) {
@@ -99,8 +101,17 @@ namespace task {
         }
 
         for (; i < a.size(); ++i) {
-            if (!AreClose(coef, a[i] / b[i])) {
+            /*if (!AreClose(coef, a[i] / b[i])) {
                 return false;
+            }*/
+            if (b[i] != 0) {
+                if (!AreClose(coef, a[i] / b[i])) {
+                    return false;
+                }
+            } else if (a[i] != 0) {
+                if (!AreClose(1 / coef, b[i] / a[i])) {
+                    return false;
+                }
             }
         }
 
@@ -120,10 +131,11 @@ namespace task {
     }
 
     void reverse(std::vector<double> &a) {
-        for (int i = 0; i < a.size()/2; ++i) {
-	    double temp = a[i];
-	    a[i]=a[a.size() - i - 1];
-            a[a.size() - 1 - i] = temp;
+        for (int i = 0; i < a.size() / 2; ++i) {
+            /*double temp = a[i];
+            a[i] = a[a.size() - i - 1];
+            a[a.size() - 1 - i] = temp;*/
+            std::swap(a[i], a[a.size() - i - 1]);
         }
     }
 
@@ -165,4 +177,4 @@ namespace task {
         return cout;
     }
 
-}  // namespace task
+}// namespace task
